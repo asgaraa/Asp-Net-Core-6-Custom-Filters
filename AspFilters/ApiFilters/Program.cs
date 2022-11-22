@@ -90,9 +90,11 @@ builder.Services.AddSwaggerGen(options =>
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
-
-
+//builder.Services.AddScoped<ActionFilterExample>();
+//builder.Services.AddScoped<ControllerFilterExample>();
+builder.Services.AddScoped<LoggingAttribute>();
 var app = builder.Build();
+app.UseHttpLogging();
 IWebHostEnvironment env = app.Environment;
 if (true)
 {

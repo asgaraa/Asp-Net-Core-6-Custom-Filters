@@ -16,9 +16,11 @@ namespace ApiFilters.Controllers
             _service = service;
             _logger = logger;
         }
+
         [HttpGet]
         [Route("GetDateTime")]
-        [MyAuth(RoleConstants.Admin)]
+        [MyAuth(RoleConstants.SuperAdmin)]
+        [Logging]
         public IActionResult GetDateTime()
         {
             var result = _service.GetCurrentDateTime();
