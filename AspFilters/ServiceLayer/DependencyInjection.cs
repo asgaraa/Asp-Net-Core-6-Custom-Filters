@@ -14,8 +14,8 @@ namespace ServiceLayer
         public static IServiceCollection AddServiceLayer(this IServiceCollection services)
         {
 
-         
 
+            services.AddScoped<IDateTimeService, DateTimeService>();
             services.AddScoped<IUserInfoService, UserInfoService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IEmailService, EmailService>();

@@ -1,6 +1,12 @@
-﻿namespace ApiFilters.CustomFilters
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace ApiFilters.CustomFilters
 {
-    public class MyAuth
+    public class MyAuthAttribute : AuthorizeAttribute
     {
+        public MyAuthAttribute(params string[] roles)
+        {
+            Roles = String.Join(",", roles);
+        }
     }
 }
