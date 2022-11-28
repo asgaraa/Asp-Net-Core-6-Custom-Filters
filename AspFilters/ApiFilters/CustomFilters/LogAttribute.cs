@@ -1,25 +1,41 @@
 ﻿
+using Microsoft.AspNetCore.Mvc.Filters;
 using System.Diagnostics;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
 namespace ApiFilters.CustomFilters
 {
-    public class LogAttribute : ActionFilterAttribute
+    public class LogAttribute : Microsoft.AspNetCore.Mvc.Filters.ActionFilterAttribute
     {
-        public LogAttribute()
+        public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
-
+            Log("OnActionExecuted", filterContext.RouteData);
         }
 
-        public override void OnActionExecuting(HttpActionContext actionContext)
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            Trace.WriteLine(string.Format("Action Method {0} executing at {1}", actionContext.ActionDescriptor.ActionName, DateTime.Now.ToShortDateString()), "Web API Logs");
+            Log("OnActionExecuting", filterContext.RouteData);
         }
 
-        public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
+        public override void OnResultExecuted(ResultExecutedContext filterContext)
         {
-            Trace.WriteLine(string.Format("Action Method {0} executed at {1}", actionExecutedContext.ActionContext.ActionDescriptor.ActionName, DateTime.Now.ToShortDateString()), "Web API Logs");
+            Log("OnResultExecuted", filterContext.RouteData);
+        }
+
+        public override void OnResultExecuting(ResultExecutingContext filterContext)
+        {
+            Log("OnResultExecuting ", filterContext.RouteData);
+        }
+
+        private void Log(string methodName, RouteData routeData)
+        {
+            var controllerName = routeData.Values["controller"];
+            var actionName = routeData.Values["action"];
+            var message = String.Format("{0}- controller:{1} action:{2}", methodName,
+                                                                        controllerName,
+                                                                        actionName);
+            Debug.WriteLine(message);
         }
     }
 }

@@ -19,10 +19,10 @@ namespace ApiFilters.Controllers
 
         [HttpGet]
         [Route("GetDateTime")]
-        //  [MyAuth(RoleConstants.SuperAdmin)]
-        // [Log]
-        // [Result]
+        [MyAuth(RoleConstants.SuperAdmin)]
         [CustomResourceFilter("X-Value", "Y-Value")]
+        [Log]
+        [Result]
         public IActionResult GetDateTime()
         {
             var result = _service.GetCurrentDateTime();
