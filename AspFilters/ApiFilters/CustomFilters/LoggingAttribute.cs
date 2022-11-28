@@ -9,26 +9,28 @@ using System.Web.Http.Filters;
 
 namespace ApiFilters.CustomFilters
 {
-    public class LoggingAttribute : ActionFilterAttribute
+    public class LoggingAttribute : Attribute, IActionFilter
     {
-      //  private readonly ILogger<LoggingAttribute> _logger;
         public LoggingAttribute()
         {
-           // _logger = logger;
+
+        }
+        public Task<HttpResponseMessage> ExecuteActionFilterAsync(HttpActionContext actionContext, CancellationToken cancellationToken, Func<Task<HttpResponseMessage>> continuation)
+        {
+            Trace.WriteLine(string.Format("Action Method {0} executing at {1}", actionContext.ActionDescriptor.ActionName, DateTime.Now.ToShortDateString()), "Web API Logs");
+
+            var result = continuation();
+
+            result.Wait();
+
+            Trace.WriteLine(string.Format("Action Method {0} executed at {1}", actionContext.ActionDescriptor.ActionName, DateTime.Now.ToShortDateString()), "Web API Logs");
+
+            return result;
         }
 
-        public override void OnActionExecuting(HttpActionContext context)
+        public bool AllowMultiple
         {
-            // do something before the action executes
-            Trace.WriteLine(string.Format("Action Method {0} executing at {1}", context.ActionDescriptor.ActionName, DateTime.Now.ToShortDateString()), "Web API Logs");
-           
-        }
-
-        public override  void OnActionExecuted(HttpActionExecutedContext context)
-        {
-            // do something after the action executes
-            Trace.WriteLine(string.Format("Action Method {0} executed at {1}", context.ActionContext.ActionDescriptor.ActionName, DateTime.Now.ToShortDateString()), "Web API Logs");
-
+            get { return true; }
         }
     }
 }

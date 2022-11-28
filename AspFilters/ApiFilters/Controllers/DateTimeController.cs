@@ -6,21 +6,22 @@ using ServiceLayer.Services.Interfaces;
 
 namespace ApiFilters.Controllers
 {
- 
+
     public class DateTimeController : BaseController
     {
         private readonly IDateTimeService _service;
-        private readonly ILogger<DateTimeController> _logger;
-        public DateTimeController(IDateTimeService service, ILogger<DateTimeController> logger)
+       // private readonly ILogger<DateTimeController> _logger;
+        public DateTimeController(IDateTimeService service)
         {
             _service = service;
-            _logger = logger;
+          //  _logger = logger;
         }
 
         [HttpGet]
         [Route("GetDateTime")]
-        [MyAuth(RoleConstants.SuperAdmin)]
-        [Logging]
+        //  [MyAuth(RoleConstants.SuperAdmin)]
+        // [Log]
+        [Result]
         public IActionResult GetDateTime()
         {
             var result = _service.GetCurrentDateTime();

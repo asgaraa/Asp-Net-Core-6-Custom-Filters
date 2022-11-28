@@ -25,7 +25,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>()
  .AddDefaultTokenProviders();
 
 
-
+builder.Services.AddScoped<LogAttribute>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -92,7 +92,7 @@ builder.Services.AddSwaggerGen(options =>
 
 //builder.Services.AddScoped<ActionFilterExample>();
 //builder.Services.AddScoped<ControllerFilterExample>();
-builder.Services.AddScoped<LoggingAttribute>();
+
 var app = builder.Build();
 app.UseHttpLogging();
 IWebHostEnvironment env = app.Environment;
